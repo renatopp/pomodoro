@@ -1,0 +1,7 @@
+{
+  "name": "R2P Pomodoro",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}

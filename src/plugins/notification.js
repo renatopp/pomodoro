@@ -1,3 +1,5 @@
+const { default: configs } = require('@/configs');
+
 import store from '../store'
 import NotificationSound from '../types/NotificationSounds'
 import { LocalNotifications } from '@capacitor/local-notifications'
@@ -14,7 +16,10 @@ async function _showBrowserNotification(type) {
     await _requestBrowserNotification()
   }
   const mode = store.state.settings.modes[type]
-  const notification = new Notification('Time\'s up!', { body: `Your ${mode?.name ?? type} time has ended.` });
+  const notification = new Notification('Time\'s up!', {
+    body: `Your ${mode?.name ?? type} time has ended.`,
+    icon: `${configs.publicPath}assets/icon/icon.png`
+  });
   setTimeout(() => notification.close(), 5*1000);
 }
 

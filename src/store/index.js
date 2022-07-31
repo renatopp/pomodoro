@@ -6,9 +6,9 @@ App.addListener('appStateChange', (state) => {
   store.state.application.active = state.isActive
 });
 
-const WORK_COLOR = '#97281C'
-const SHORT_COLOR = '#35521C'
-const LONG_COLOR = '#1C5338'
+const WORK_COLOR = '#D95550'
+const SHORT_COLOR = '#226FD3'
+const LONG_COLOR = '#228C94'
 
 function _getState() {
   let loaded

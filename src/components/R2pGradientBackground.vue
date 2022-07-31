@@ -6,9 +6,22 @@
 </template>
 
 <script>
-import randomColor from 'randomcolor'
+// import randomColor from 'randomcolor'
 import chroma from 'chroma-js'
 import lodash from 'lodash'
+
+function randomColor({ hue, luminosity }) {
+  const color = chroma(hue)
+  const AMOUNT = 3
+
+  if (luminosity === 'light') {
+    return color.brighten(Math.random() * AMOUNT/2)
+  } else if (luminosity === 'dark') {
+    return color.darken(Math.random() * AMOUNT)
+  } else {
+    return color.darken(Math.random() * AMOUNT * 2 - AMOUNT)
+  }
+}
 
 export default {
   data() {
@@ -72,15 +85,15 @@ export default {
       } else {
         this.initialized = true
         this.fromColors = [
-          chroma(randomColor({ hue: this.accent, luminosity: 'light' })),
-          chroma(randomColor({ hue: this.accent, luminosity: 'dark' })),
+          randomColor({ hue: this.accent, luminosity: 'light' }),
+          randomColor({ hue: this.accent, luminosity: 'dark' }),
         ]
       }
 
       this.tick = 0
       this.toColors = [
-        chroma(randomColor({ hue: this.accent, luminosity: 'light' })),
-        chroma(randomColor({ hue: this.accent, luminosity: 'dark' })),
+        randomColor({ hue: this.accent, luminosity: 'light' }),
+        randomColor({ hue: this.accent, luminosity: 'dark' }),
       ],
       this.duration = 1000
       
@@ -97,8 +110,8 @@ export default {
     renewColors() {
       this.fromColors = this.toColors
       this.toColors = [
-        chroma(randomColor({ hue: this.accent, luminosity: 'light' })),
-        chroma(randomColor({ hue: this.accent, luminosity: 'dark' })),
+        randomColor({ hue: this.accent, luminosity: 'light' }),
+        randomColor({ hue: this.accent, luminosity: 'dark' }),
       ]
       this.duration = 30000
     },

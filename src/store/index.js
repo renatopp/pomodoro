@@ -1,6 +1,11 @@
 import lodash from 'lodash'
 import { reactive } from 'vue';
 
+import { App } from '@capacitor/app';
+App.addListener('appStateChange', (state) => {
+  store.state.application.active = state.isActive
+});
+
 const WORK_COLOR = '#97281C'
 const SHORT_COLOR = '#35521C'
 const LONG_COLOR = '#1C5338'
@@ -16,7 +21,9 @@ function _getState() {
   return lodash.defaultsDeep({}, loaded??{}, {
     application: {
       currentMode: 'work',
-      countdownTime: loaded?.settings?.modes?.work?.minutes*60 ?? 25*60,
+      active: true,
+      notificationPermission: null,
+      countdownTime: (loaded?.settings?.modes?.work?.minutes ?? 25)*60,
       history: [
       ]
     },
@@ -48,7 +55,7 @@ function _getState() {
   })
 }
 
-export default {
+const store = {
   state: reactive(_getState()),
 
   getModeData(name) {
@@ -101,3 +108,5 @@ export default {
     localStorage.setItem('state', JSON.stringify(state))
   },
 }
+
+export default store

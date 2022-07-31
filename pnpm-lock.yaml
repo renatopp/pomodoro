@@ -7,6 +7,7 @@ specifiers:
   '@capacitor/core': 4.0.0
   '@capacitor/haptics': 4.0.0
   '@capacitor/keyboard': 4.0.0
+  '@capacitor/local-notifications': ^4.0.1
   '@capacitor/status-bar': 4.0.0
   '@ionic/vue': ^6.0.0
   '@ionic/vue-router': ^6.0.0
@@ -31,7 +32,6 @@ specifiers:
   eslint: ^8.4.1
   eslint-plugin-vue: ^8.2.0
   format-duration: ^2.0.0
-  granim: ^2.0.0
   ionicons: ^6.0.2
   jest: ^27.3.1
   lodash: ^4.17.21
@@ -49,13 +49,13 @@ dependencies:
   '@capacitor/core': 4.0.0
   '@capacitor/haptics': 4.0.0_@capacitor+core@4.0.0
   '@capacitor/keyboard': 4.0.0_@capacitor+core@4.0.0
+  '@capacitor/local-notifications': 4.0.1_@capacitor+core@4.0.0
   '@capacitor/status-bar': 4.0.0_@capacitor+core@4.0.0
   '@ionic/vue': 6.2.0
   '@ionic/vue-router': 6.2.0
   chroma-js: 2.4.2
   core-js: 3.24.0
   format-duration: 2.0.0
-  granim: 2.0.0
   ionicons: 6.0.2
   lodash: 4.17.21
   randomcolor: 0.6.2
@@ -1505,6 +1505,14 @@ packages:
     resolution: {integrity: sha512-bn6hwvTYzjTp5e0bqhuelp0jlqF56Z2sqbCFOL/cZsHZ8LBxGf4rrYBCd3H6snw/FA45YLZ9S5Eat2OdoXPOjw==}
     peerDependencies:
       '@capacitor/core': next
+    dependencies:
+      '@capacitor/core': 4.0.0
+    dev: false
+
+  /@capacitor/local-notifications/4.0.1_@capacitor+core@4.0.0:
+    resolution: {integrity: sha512-7OX8k1HUKLo5W8LnkHi0Pesshdn2oGbgcw/1cUd37u9hG5S1Y9a0dNjnlYi9BGfV03Bpjxr5P6q1BhKDCwb3wg==}
+    peerDependencies:
+      '@capacitor/core': ^4.0.0
     dependencies:
       '@capacitor/core': 4.0.0
     dev: false
@@ -6073,10 +6081,6 @@ packages:
   /graceful-fs/4.2.10:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
     dev: true
-
-  /granim/2.0.0:
-    resolution: {integrity: sha512-aqa79K49ndjoUBtpYzlO8sKcuVQED+5axvX0SveqTLDR+Fa2G42AGntuQ36ysCFOWGVkWCLfHowFwk+D/9rGDg==}
-    dev: false
 
   /gzip-size/6.0.0:
     resolution: {integrity: sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==}

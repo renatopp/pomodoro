@@ -1,0 +1,23 @@
+
+.show-fade {
+  &.v-enter-active,
+  &.v-leave-active {
+    transition: opacity 0.5s ease;
+  }
+
+  &.v-enter-from,
+  &.v-leave-to {
+    opacity: 0;
+  }
+}
+
+.anim-blink {
+  animation: blink-animation 2s ease-out 0s infinite;
+}
+
+@keyframes blink-animation {
+  1% { opacity: 1; }
+  40% { opacity: 0.5; }
+  50% { opacity: 0.5; }
+  90% { opacity:1; }
+}

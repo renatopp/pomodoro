@@ -1,14 +1,20 @@
 <script setup>
-import { ref, inject, onMounted, onUnmounted} from 'vue'
+import { ref, inject, onMounted, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
 import Countdown from '@/components/Countdown.vue'
 import History from '@/components/History.vue'
+import Settings from '@/components/Settings.vue'
+import IconSettings from '@/components/icons/IconSettings.vue'
 
+const router = useRouter();
 const store = inject('store')
 const countdown = ref(null)
 let playing = ref(false)
+let settings = ref(false)
 
 function clickPage() {
   playing.value = countdown.value.toggle()
+  settings.value = false
 }
 
 function clickMode(mode) {
@@ -19,17 +25,31 @@ function clickMode(mode) {
 }
 
 function clickSettings() {
-  // countdown.value.resume()
+  settings.value = true
 }
+
+function closeSettings() {
+  settings.value = false
+}
+
 
 function onFinished() {
   playing.value = false
   store.addHistory(store.getMode().name)
 }
 
+function onTick() {
+  document.title = `${countdown.value.value} - R2Pomodoro`
+}
+
 onMounted(() => {
   countdown.value.start(store.state.application.countdownTime)
   countdown.value.pause()
+  document.title = `${countdown.value.value} - R2Pomodoro`
+})
+
+onBeforeUnmount(() => {
+  store.state.application.countdownTime = countdown.value.remainingTime
 })
 </script>
 
@@ -37,7 +57,9 @@ onMounted(() => {
   <main class="home-view expand">
     <Transition>
       <div class="navbar show-fade" v-show="!playing">
-        <a @click.stop="clickSettings">options</a>
+        <a @click.stop="clickSettings" v-if="!settings">
+          <icon-settings></icon-settings>
+        </a>
       </div>
     </Transition>
 
@@ -45,6 +67,7 @@ onMounted(() => {
       <countdown
         ref="countdown"
         :class="{ 'anim-blink': !playing }"
+        @tick="onTick"
         @finished="onFinished"
       ></countdown>
     </div>
@@ -62,6 +85,11 @@ onMounted(() => {
         <history :history="store.state.application.history"></history>
       </div>
     </Transition>
+
+    <div class="settings show-fade" v-show="settings">
+      <settings @close="closeSettings"></settings>
+    </div>
+
   </main>
 </template>
 
@@ -99,7 +127,7 @@ onMounted(() => {
   justify-content: center;
   column-gap: 20px;
   font-size: 1.3rem;
-  text-transform: uppercase;
+  // text-transform: uppercase;
 
   a {
     padding: 10px;

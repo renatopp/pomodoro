@@ -8,7 +8,7 @@ const LONG_COLOR = '#228C94'
 function _getState() {
   let loaded
   try {
-    loaded = JSON.parse(localStorage.getItem('state'))
+    loaded = JSON.parse(localStorage.getItem('state-v2'))
   } catch(e) {
     console.error(e)
   }
@@ -19,18 +19,8 @@ function _getState() {
       active: true,
       notificationPermission: null,
       countdownTime: (loaded?.settings?.modes?.work?.minutes ?? 25)*60,
+      settingsColor: null,
       history: [
-        // 'work',
-        // 'short',
-        // 'work',
-        // 'short',
-        // 'work',
-        // 'short',
-        // 'work',
-        // 'long',
-        // 'work',
-        // 'short',
-        // 'long',
       ]
     },
     settings: {
@@ -114,7 +104,7 @@ const store = {
       settings: this.state.settings
     }
 
-    localStorage.setItem('state', JSON.stringify(state))
+    localStorage.setItem('state-v2', JSON.stringify(state))
   },
 }
 

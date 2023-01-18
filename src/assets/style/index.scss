@@ -1,6 +1,7 @@
 @import "./reset.scss";
 @import "./fonts.scss";
 @import "./animations.scss";
+@import "./forms.scss";
 
 html, body {
   width: 100%;
@@ -9,7 +10,6 @@ html, body {
   padding: 0;
   margin: 0;
   font-family: 'Nunito', sans-serif;
-  background-color: red;
   color: #FFFFFF;
 }
 
@@ -28,4 +28,24 @@ a {
     text-shadow: 0 0 10px #ffffff;
     transform: translateY(-3px);
   }
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: fade-out($color: white, $amount: .9);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: fade-out($color: white, $amount: .1);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: fade-out($color: white, $amount: 0);
 }

@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import formatTime from 'format-duration'
 
-const emit = defineEmits(['finished'])
+const emit = defineEmits(['finished', 'tick'])
 
 let _elapsed = ref(0)
 let _startedTimer = 0
@@ -53,6 +53,7 @@ function toggle() {
 function _tick() {
   if (!_playing) return
   _elapsed.value = parseInt((Date.now() - _startedTimer)/1000.0)
+    emit('tick', _totalTime.value)
 
   if (_elapsed.value > _totalTime.value) {
     stop()
@@ -78,7 +79,8 @@ defineExpose({
   remainingTime,
   elapsedTime,
   totalTime,
-  playing
+  playing,
+  value,
 })
 </script>
 

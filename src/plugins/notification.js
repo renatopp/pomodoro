@@ -11,7 +11,7 @@ async function _showNotification(type) {
   if (!$store.state.application.notificationPermission) {
     await _requestBrowserNotification()
   }
-  const mode = $store.state.settings.modes[type]
+  const mode = $store.getMode()
   const notification = new Notification('Time\'s up!', {
     body: `Your ${mode?.name ?? type} time has ended.`,
     icon: `/assets/icon/icon.png`

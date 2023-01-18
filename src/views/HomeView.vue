@@ -8,6 +8,7 @@ import IconSettings from '@/components/icons/IconSettings.vue'
 
 const router = useRouter();
 const store = inject('store')
+const notification = inject('notification')
 const countdown = ref(null)
 let playing = ref(false)
 let settings = ref(false)
@@ -36,6 +37,7 @@ function closeSettings() {
 function onFinished() {
   playing.value = false
   store.addHistory(store.getMode().name)
+  notification.show()
 }
 
 function onTick() {
@@ -46,6 +48,7 @@ onMounted(() => {
   countdown.value.start(store.state.application.countdownTime)
   countdown.value.pause()
   document.title = `${countdown.value.value} - R2Pomodoro`
+  store.state.application.settingsColor = null
 })
 
 onBeforeUnmount(() => {

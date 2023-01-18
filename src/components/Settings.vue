@@ -92,7 +92,7 @@ onUnmounted(() => {
         </div>
       </div>
 
-      
+<!--       
       <div class="card">
         <h2>Background</h2>
         <div class="row">
@@ -109,7 +109,7 @@ onUnmounted(() => {
             @change="onChange"
           />
         </div>
-      </div>
+      </div> -->
 
       
       <div class="card">

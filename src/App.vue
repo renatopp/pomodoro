@@ -1,37 +1,20 @@
-<template>
-  <ion-app>
-    <r2p-gradient-background>
-      <ion-router-outlet />
-    </r2p-gradient-background>
-  </ion-app>
-</template>
+<script setup>
+import { inject, computed } from 'vue'
+import { RouterView } from 'vue-router'
+import GradientBackground from './components/GradientBackground.vue';
 
-<script>
-import { IonApp, IonRouterOutlet } from '@ionic/vue';
-import { defineComponent } from 'vue';
-import R2pGradientBackground from './components/R2pGradientBackground.vue';
+const store = inject('store')
 
-export default defineComponent({
-  name: 'App',
-  components: {
-    IonApp,
-    IonRouterOutlet,
-    R2pGradientBackground
-  },
-});
+const accent = computed(() => store.state.application.settingsColor || store.getMode().accent)
+const down =  store.state.application.active
+
 </script>
 
-<style>
-html, body {
-  font-family: 'Roboto', sans-serif;
-  overflow: hidden;
-}
+<template>
+  <GradientBackground :accent="accent"></GradientBackground>
+  <RouterView />
+</template>
 
-ion-input.color input {
-  height: 100%;
-}
-
-ion-content {
-  --background: none;
-}
+<style lang="scss">
+@import "@/assets/style/index.scss";
 </style>

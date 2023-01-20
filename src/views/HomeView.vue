@@ -31,8 +31,8 @@ function clickSettings() {
 
 function closeSettings() {
   settings.value = false
+  store.state.application.settingsColor = null
 }
-
 
 function onFinished() {
   playing.value = false

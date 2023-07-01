@@ -14,7 +14,7 @@ async function _showNotification(type) {
   const mode = $store.getMode()
   const notification = new Notification('Time\'s up!', {
     body: `Your ${mode?.name ?? type} time has ended.`,
-    icon: `/apps/pomodoro/assets/icon/icon.png`
+    icon: `/assets/icon/icon.png`
   });
   setTimeout(() => notification.close(), 5*1000);
 }

@@ -1,29 +1,35 @@
-# pomodoro
+# README
 
-This template should help get you started developing with Vue 3 in Vite.
+Color:
+- https://baianat.github.io/verte/
+- https://www.npmjs.com/package/@cyhnkckali/vue3-color-picker
 
-## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+TODO
 
-## Customize configuration
+[x] Componente para o titulo (sumindo se nao for pelo wails)
+[ ] Componente para o countdown
+  [ ] Opcao de blink parado
+[x] Store
+  [x] page
+  [ ] settings
+    [ ] toast notification
+    [ ] notification sound
+    [ ] notification volume
+    [ ] max history
+  [ ] history
+  [ ] profiles
+    [ ] name
+    [ ] duration
+    [ ] color
+    [ ] notification sound
+[ ] start/pause/reset
+[ ] controles dinamicos pelos profiles
+[ ] view settings
+[ ] atualizar titulo
+[ ] historico
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-pnpm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-pnpm dev
-```
-
-### Compile and Minify for Production
-
-```sh
-pnpm build
-```
+[ ] adicionar icone
+[ ] build para desktop
+[ ] build para web
+[ ] deploy web

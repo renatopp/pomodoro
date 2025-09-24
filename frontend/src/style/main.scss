@@ -1,0 +1,59 @@
+@use 'reset';
+
+@font-face {
+    font-family: "Ubuntu Mono";
+    font-style: normal;
+    font-weight: 400;
+    src: local(""),
+    url("assets/fonts/ubuntu-mono-regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Work Sans";
+    font-style: normal;
+    font-weight: 400;
+    src: local(""),
+    url("assets/fonts/work-sans-regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Anton";
+    font-style: normal;
+    font-weight: 400;
+    src: local(""),
+    url("assets/fonts/anton-regular.ttf") format("truetype");
+}
+
+:root {
+  --primary-color: #FF5D5D;
+  --text-color: #FFFCEA;
+  --font-primary: 'Work Sans', sans-serif;
+  --font-mono: 'Ubuntu Mono', monospace;
+  --font-display: 'Anton', sans-serif;
+}
+
+html, body, #app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'Work Sans', sans-serif;
+  color: var(--text-color);
+  background-color: var(--primary-color);
+}
+
+// ANIMATIONS
+.fadescale-enter-active,
+.fadescale-leave-active {
+  transition: opacity .3s ease;
+}
+
+.fadescale-enter-to,
+.fadescale-leave-from {
+  opacity: 1;
+}
+
+.fadescale-enter-from,
+.fadescale-leave-to {
+  opacity: 0;
+}

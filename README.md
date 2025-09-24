@@ -8,26 +8,28 @@ Color:
 TODO
 
 [x] Componente para o titulo (sumindo se nao for pelo wails)
-[ ] Componente para o countdown
-  [ ] Opcao de blink parado
+[x] Componente para o countdown
+  [x] Opcao de blink parado
 [x] Store
   [x] page
-  [ ] settings
-    [ ] toast notification
-    [ ] notification sound
-    [ ] notification volume
-    [ ] max history
-  [ ] history
-  [ ] profiles
-    [ ] name
-    [ ] duration
-    [ ] color
-    [ ] notification sound
-[ ] start/pause/reset
-[ ] controles dinamicos pelos profiles
+  [x] settings
+    [x] toast notification
+    [x] notification sound
+    [x] notification volume
+    [x] max history
+  [x] history
+  [x] profiles
+    [x] name
+    [x] duration
+    [x] color
+[x] start/pause/reset
+[x] controles dinamicos pelos profiles
+[x] historico
+
 [ ] view settings
-[ ] atualizar titulo
-[ ] historico
+[?] atualizar titulo
+[x] mudar a cor de fundo
+[x] mudar a cor do texto
 
 [ ] adicionar icone
 [ ] build para desktop

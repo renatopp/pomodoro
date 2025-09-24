@@ -5,7 +5,7 @@ function isDesktop() {
   return (window as any).runtime !== undefined
 }
 function viewSettings() {
-  if (store.data.page === 'settings') {
+  if (store.state.page === 'settings') {
     store.setPage('timer')
     return
   }

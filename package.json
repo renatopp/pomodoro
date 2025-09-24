@@ -1,0 +1,11 @@
+{
+	"dependencies": {
+		"@cyhnkckali/vue3-color-picker": "^2.1.5",
+		"chroma-js": "^3.1.2",
+		"format-duration": "^3.0.2"
+	},
+	"devDependencies": {
+		"@types/chroma-js": "^3.1.1",
+		"@types/format-duration": "^3.0.0"
+	}
+}

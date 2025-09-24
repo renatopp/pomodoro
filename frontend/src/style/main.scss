@@ -1,4 +1,5 @@
 @use 'reset';
+@use 'form';
 
 @font-face {
     font-family: "Ubuntu Mono";
@@ -37,9 +38,10 @@ html, body, #app {
   padding: 0;
   height: 100%;
   width: 100%;
+  font-size: 1rem;;
   font-family: 'Work Sans', sans-serif;
-  color: var(--text-color);
-  background-color: var(--primary-color);
+  // color: var(--text-color);
+  // background-color: var(--primary-color);
 }
 
 // ANIMATIONS
@@ -56,4 +58,38 @@ html, body, #app {
 .fadescale-enter-from,
 .fadescale-leave-to {
   opacity: 0;
+}
+
+// HELPERS
+.spacer {
+  flex: 1 1 auto;
+}
+.spacer.vertical {
+  display: flex;
+  flex-direction: column;
+}
+.spacer.horizontal {
+  display: flex;
+  flex-direction: row;
+}
+
+// SCROLLBAR
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: fade-out(white, .9);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: fade-out(white, .1);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: fade-out(white, 0);
 }

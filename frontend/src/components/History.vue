@@ -38,7 +38,7 @@ function computeSize(d: number): number {
 
 .dot {
   display: inline-flex;
-  background-color: var(--js-color-text, white);
+  background-color: currentColor;
   border-radius: 50%;
   display: inline-flex;
 }

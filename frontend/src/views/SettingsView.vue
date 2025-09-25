@@ -43,6 +43,14 @@ function handleHistoryClear() {
   store.clearHistory();
 }
 
+function handleColorChange() {
+  store.setColors();
+}
+
+function handleColorReset() {
+  store.resetTextColors();
+}
+
 onMounted(() => {
   store.setColors("#E65454")
 })
@@ -182,10 +190,12 @@ onUnmounted(() => {
             <div class="input">
               <div class="display-colors">
                 <div class="display-colors__light">
-                  <input-color v-model="store.state.settings.displayLightColor" />
+                  <span :style="`color: ${store.state.settings.displayLightColor}`">Light Color</span>
+                  <input-color v-model="store.state.settings.displayLightColor" @change="handleColorChange" />
                 </div>
                 <div class="display-colors__dark">
-                  <input-color v-model="store.state.settings.displayDarkColor" />
+                  <span :style="`color: ${store.state.settings.displayDarkColor}`">Dark Color</span>
+                  <input-color v-model="store.state.settings.displayDarkColor" @change="handleColorChange" />
                 </div>
               </div>
             </div>
@@ -197,7 +207,7 @@ onUnmounted(() => {
               <small>Reset the color settings to default.</small>
             </hgroup>
             <div class="input">
-              <button>Reset Colors</button>
+              <button @click="handleColorReset">Reset Colors</button>
             </div>
           </div>
           
@@ -298,7 +308,9 @@ onUnmounted(() => {
     &__light, &__dark {
       flex: 1 1 auto;
       display: flex;
-      // justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+      justify-content: center;
       align-items: center;
       // flex-direction: row-reverse
     }

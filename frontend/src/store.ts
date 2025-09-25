@@ -3,6 +3,12 @@ import chroma from "chroma-js";
 import formatTime from "format-duration";
 import formatDuration from "format-duration";
 
+const DEFAULT_LIGHT_COLOR = "#FFFCEA";
+const DEFAULT_DARK_COLOR = "#1A1A1A";
+const DEFAULT_WORK_COLOR = "#FF5D5D";
+const DEFAULT_SHORT_COLOR = "#087E8B";
+const DEFAULT_LONG_COLOR = "#6CC551";
+
 export type Pages = "timer" | "settings";
 export const SoundSources = [
   { id: "none", name: "None", path: "" },
@@ -54,9 +60,9 @@ class Profile {
 }
 
 const defaultProfiles = {
-  Work: new Profile("Work", 25 * 60 * 1000, "#FF5D5D"),
-  Short: new Profile("Short", 5 * 60 * 1000, "#087E8B"),
-  Long: new Profile("Long", 15 * 60 * 1000, "#6CC551"),
+  Work: new Profile("Work", 25 * 60 * 1000, DEFAULT_WORK_COLOR),
+  Short: new Profile("Short", 5 * 60 * 1000, DEFAULT_SHORT_COLOR),
+  Long: new Profile("Long", 15 * 60 * 1000, DEFAULT_LONG_COLOR),
 };
 
 export class State {
@@ -74,8 +80,8 @@ export class State {
     notificationSound: "acoustic-guitar",
     notificationVolume: 100,
     displayChangeTitle: true,
-    displayLightColor: "#FFFCEA",
-    displayDarkColor: "#1A1A1A",
+    displayLightColor: DEFAULT_LIGHT_COLOR,
+    displayDarkColor: DEFAULT_DARK_COLOR,
     profiles: [
       defaultProfiles.Work,
       defaultProfiles.Short,
@@ -160,6 +166,12 @@ function setColors(bg?: string, fg?: string, fgAlt?: string) {
   app.style.setProperty("--js-color-background", bg);
   app.style.setProperty("--js-color-text", fg);
   app.style.setProperty("--js-color-text-inv", fgAlt);
+}
+
+function resetTextColors() {
+  data.settings.displayLightColor = DEFAULT_LIGHT_COLOR;
+  data.settings.displayDarkColor = DEFAULT_DARK_COLOR;
+  setColors();
 }
 
 // HISTORY CONTROLS -----------------------------------------------------------
@@ -311,6 +323,7 @@ export default {
   getCurrentProfile,
   getTextColor,
   setColors,
+  resetTextColors,
 
   addToHistory,
   clearHistory,

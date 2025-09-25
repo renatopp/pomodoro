@@ -8,6 +8,8 @@ const model = defineModel({
   required: true
 })
 
+const emit = defineEmits(['change'])
+
 const open = ref(false)
 function toggle() {
   open.value = !open.value
@@ -30,6 +32,7 @@ function toggle() {
       :showEyeDrop="false"
       class="color-picker"
       type="HEX"
+      @on-change="() => emit('change')"
     />
   </div>
 </template>

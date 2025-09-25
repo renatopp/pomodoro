@@ -8,6 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@cyhnkckali/vue3-color-picker':
+        specifier: ^2.1.5
+        version: 2.1.5(vue@3.5.21(typescript@4.9.5))
+      chroma-js:
+        specifier: ^3.1.2
+        version: 3.1.2
+      format-duration:
+        specifier: ^3.0.2
+        version: 3.0.2
       sass:
         specifier: ^1.93.2
         version: 1.93.2
@@ -18,6 +27,12 @@ importers:
       '@babel/types':
         specifier: ^7.18.10
         version: 7.28.4
+      '@types/chroma-js':
+        specifier: ^3.1.1
+        version: 3.1.1
+      '@types/format-duration':
+        specifier: ^3.0.0
+        version: 3.0.0
       '@vitejs/plugin-vue':
         specifier: ^3.0.3
         version: 3.2.0(vite@3.2.11(sass@1.93.2))(vue@3.5.21(typescript@4.9.5))
@@ -49,6 +64,11 @@ packages:
   '@babel/types@7.28.4':
     resolution: {integrity: sha512-bkFqkLhh3pMBUQQkpVgWDWq/lqzc2678eUyDlTBhRqhCHFguYYGM0Efga7tYk4TogG/3x0EEl66/OQ+WGbWB/Q==}
     engines: {node: '>=6.9.0'}
+
+  '@cyhnkckali/vue3-color-picker@2.1.5':
+    resolution: {integrity: sha512-vFNUPZxn6+htojmj7rUGjQAV0BYALa73DqTn5M72xTsMLNJKwlkOX+TGMzVUDslkYIAwH9AtWbS+PLDMzkudLw==}
+    peerDependencies:
+      vue: ^3.3.8
 
   '@esbuild/android-arm@0.15.18':
     resolution: {integrity: sha512-5GT+kcs2WVGjVs7+boataCkO5Fg0y4kCjzkB5bAip7H4jfnOS3dA6KPiww9W1OEKTKeAcUVhdZGvgI65OXmUnw==}
@@ -147,6 +167,12 @@ packages:
     resolution: {integrity: sha512-dfUnCxiN9H4ap84DvD2ubjw+3vUNpstxa0TneY/Paat8a3R4uQZDLSvWjmznAY/DoahqTHl9V46HF/Zs3F29pg==}
     engines: {node: '>= 10.0.0'}
 
+  '@types/chroma-js@3.1.1':
+    resolution: {integrity: sha512-SFCr4edNkZ1bGaLzGz7rgR1bRzVX4MmMxwsIa3/Bh6ose8v+hRpneoizHv0KChdjxaXyjRtaMq7sCuZSzPomQA==}
+
+  '@types/format-duration@3.0.0':
+    resolution: {integrity: sha512-UxvnTQDEXlENGSGXO7akfRbe1MH1JvIZwSxkC/igXDnKKHP3esluWNWKwoNzkUEl3q4VAJbjlvTOH7XPWOpbBg==}
+
   '@vitejs/plugin-vue@3.2.0':
     resolution: {integrity: sha512-E0tnaL4fr+qkdCNxJ+Xd0yM31UwMkQje76fsDVBBUCoGOUPexu2VDUYHL8P4CwV+zMvWw6nlRw19OnRKmYAJpw==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -213,6 +239,9 @@ packages:
   chokidar@4.0.3:
     resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
     engines: {node: '>= 14.16.0'}
+
+  chroma-js@3.1.2:
+    resolution: {integrity: sha512-IJnETTalXbsLx1eKEgx19d5L6SRM7cH4vINw/99p/M11HCuXGRWL+6YmCm7FWFGIo6dtWuQoQi1dc5yQ7ESIHg==}
 
   computeds@0.0.1:
     resolution: {integrity: sha512-7CEBgcMjVmitjYo5q8JTJVra6X5mQ20uTThdK+0kR7UEaDrAWEQcRiBtWJzga4eRpP6afNwwLsX2SET2JhVB1Q==}
@@ -363,6 +392,9 @@ packages:
   fill-range@7.1.1:
     resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
     engines: {node: '>=8'}
+
+  format-duration@3.0.2:
+    resolution: {integrity: sha512-pKzJDSRgK2lqAiPW3uizDaIJaJnataZclsahz25UMwfdryBGDa+1HlbXGjzpMvX/2kMh4O0sNevFXKaEfCjHsA==}
 
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
@@ -536,6 +568,10 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
 
+  '@cyhnkckali/vue3-color-picker@2.1.5(vue@3.5.21(typescript@4.9.5))':
+    dependencies:
+      vue: 3.5.21(typescript@4.9.5)
+
   '@esbuild/android-arm@0.15.18':
     optional: true
 
@@ -604,6 +640,10 @@ snapshots:
       '@parcel/watcher-win32-ia32': 2.5.1
       '@parcel/watcher-win32-x64': 2.5.1
     optional: true
+
+  '@types/chroma-js@3.1.1': {}
+
+  '@types/format-duration@3.0.0': {}
 
   '@vitejs/plugin-vue@3.2.0(vite@3.2.11(sass@1.93.2))(vue@3.5.21(typescript@4.9.5))':
     dependencies:
@@ -705,6 +745,8 @@ snapshots:
   chokidar@4.0.3:
     dependencies:
       readdirp: 4.1.2
+
+  chroma-js@3.1.2: {}
 
   computeds@0.0.1: {}
 
@@ -808,6 +850,8 @@ snapshots:
     dependencies:
       to-regex-range: 5.0.1
     optional: true
+
+  format-duration@3.0.2: {}
 
   fsevents@2.3.3:
     optional: true

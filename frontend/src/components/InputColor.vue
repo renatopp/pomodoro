@@ -5,7 +5,10 @@ import '@cyhnkckali/vue3-color-picker/dist/style.css'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
-  modelValue: Number,
+  modelValue: {
+    type: String,
+    required: true
+  },
 })
 
 function emitValue(e) {

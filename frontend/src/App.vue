@@ -51,8 +51,8 @@ watch(() => store.state.settings.displayDarkColor, updateColors, { immediate: tr
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: var(--bg, red);
-  color: var(--fg, #FFFCEA);
+  // background-color: var(--bg, red);
+  // color: var(--fg, #FFFCEA);
 
   transition:
     background-color 0.5s ease,

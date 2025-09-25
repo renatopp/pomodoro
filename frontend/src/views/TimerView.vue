@@ -9,6 +9,7 @@ function handlePageClick() {
 
 function handleProfileSelection(profileId: string) {
   store.startTimer(profileId);
+  store.setColors()
 }
 
 function getClassState() {
@@ -37,7 +38,7 @@ function getClassState() {
 
         <div class="spacer"></div>
         
-        <history :history="store.state.history" />
+        <history :data="store.state.history" />
       </div>
 
     </div>

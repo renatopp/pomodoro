@@ -1,9 +1,31 @@
 import { reactive } from "vue";
 import chroma from "chroma-js";
 import formatTime from "format-duration";
+import formatDuration from "format-duration";
 
 export type Pages = "timer" | "settings";
-export type Sounds = "bell";
+export const SoundSources = [
+  { id: "none", name: "None", path: "" },
+  {
+    id: "acoustic-guitar",
+    name: "Acoustic Guitar",
+    path: "assets/sounds/acoustic-guitar.mp3",
+  },
+  {
+    id: "achievement",
+    name: "Achievement",
+    path: "assets/sounds/achievement.mp3",
+  },
+  { id: "beep", name: "Beep", path: "assets/sounds/beep.mp3" },
+  { id: "bells", name: "Bells", path: "assets/sounds/bells.mp3" },
+  { id: "drums", name: "Drums", path: "assets/sounds/drums.mp3" },
+  { id: "guitar", name: "Guitar", path: "assets/sounds/guitar.mp3" },
+  { id: "hawk", name: "Hawk", path: "assets/sounds/hawk.mp3" },
+  { id: "interface", name: "Interface", path: "assets/sounds/interface.mp3" },
+  { id: "pop", name: "Pop", path: "assets/sounds/pop.mp3" },
+  { id: "reward", name: "Reward", path: "assets/sounds/reward.mp3" },
+  { id: "water", name: "Water", path: "assets/sounds/water.mp3" },
+];
 
 interface Settings {
   historyEnabled: boolean;
@@ -21,7 +43,7 @@ interface Settings {
 class Profile {
   public id = crypto.randomUUID();
   public name: string = "Default";
-  public duration: number = 25 * 60; // in seconds
+  public duration: number = 25 * 60 * 1000; // in milliseconds
   public color: string = chroma.random().hex();
 
   constructor(name: string, duration: number, color: string) {
@@ -32,15 +54,15 @@ class Profile {
 }
 
 const defaultProfiles = {
-  Work: new Profile("Work", 25 * 60, "#FF5D5D"),
-  Short: new Profile("Short", 5 * 60, "#087E8B"),
-  Long: new Profile("Long", 15 * 60, "#6CC551"),
+  Work: new Profile("Work", 25 * 60 * 1000, "#FF5D5D"),
+  Short: new Profile("Short", 5 * 60 * 1000, "#087E8B"),
+  Long: new Profile("Long", 15 * 60 * 1000, "#6CC551"),
 };
 
 export class State {
   public version: number = 1;
   public page: Pages = "timer";
-  public timer: number = defaultProfiles.Work.duration * 1000 + 999; // in milliseconds
+  public timer: number = defaultProfiles.Work.duration + 999; // in milliseconds
   public isRunning: boolean = false;
   public currentProfile: string = defaultProfiles.Work.id;
   public history: number[] = [];
@@ -49,7 +71,7 @@ export class State {
     historyMax: 9,
     notificationEnabled: false,
     notificationPermission: "default",
-    notificationSound: "bell",
+    notificationSound: "acoustic-guitar",
     notificationVolume: 100,
     displayChangeTitle: true,
     displayLightColor: "#FFFCEA",
@@ -112,6 +134,34 @@ function getCurrentProfile(): Profile {
   );
 }
 
+function getTextColor(bg?: string): [string, string] {
+  bg = bg ?? getCurrentProfile().color;
+
+  const light = data.settings.displayLightColor;
+  const dark = data.settings.displayDarkColor;
+  const lightContrast = chroma.contrast(bg, light);
+  const darkContrast = chroma.contrast(bg, dark);
+
+  if (lightContrast >= 2) {
+    return [light, dark];
+  } else {
+    return lightContrast >= darkContrast ? [light, dark] : [dark, light];
+  }
+}
+
+function setColors(bg?: string, fg?: string, fgAlt?: string) {
+  const profile = getCurrentProfile();
+  bg = bg ?? profile.color;
+  const [light, dark] = getTextColor(bg);
+  fg = fg ?? light;
+  fgAlt = fgAlt ?? dark;
+
+  const app = document.getElementById("app")!;
+  app.style.setProperty("--js-color-background", bg);
+  app.style.setProperty("--js-color-text", fg);
+  app.style.setProperty("--js-color-text-inv", fgAlt);
+}
+
 // HISTORY CONTROLS -----------------------------------------------------------
 function addToHistory(duration: number) {
   if (!data.settings.historyEnabled) return;
@@ -126,13 +176,75 @@ function clearHistory() {
   data.history = [];
 }
 
+// NOTIFICATION CONTROLS ------------------------------------------------------
+
+async function requestBrowserNotification() {
+  const permission = await Notification.requestPermission();
+  data.settings.notificationPermission = permission;
+}
+
+async function showToastNotification(
+  title: string,
+  message: string,
+  icon: string
+) {
+  if (!window.Notification) return;
+
+  if (!data.settings.notificationPermission) {
+    await requestBrowserNotification();
+  }
+  const notification = new Notification(title, {
+    body: message,
+    icon: icon,
+    silent: true,
+  });
+  setTimeout(() => notification.close(), 5 * 1000);
+}
+
+async function playSound(sound: string, volume: number) {
+  if (!sound) return;
+  try {
+    console.log("Playing sound:", sound, "at volume:", volume);
+    const audio = new Audio(sound);
+    audio.volume = volume / 100;
+    audio.play();
+  } catch (e) {
+    console.error("Failed to play sound:", e);
+  }
+}
+
+async function showNotification(
+  enabled?: boolean,
+  message?: string,
+  sound?: string,
+  volume?: number
+) {
+  const profile = getCurrentProfile();
+  enabled = enabled ?? data.settings.notificationEnabled;
+  sound =
+    sound ??
+    SoundSources.find((s) => s.id === data.settings.notificationSound)?.path;
+  volume = volume ?? data.settings.notificationVolume;
+  message =
+    message ??
+    `Your ${profile.name} (${formatDuration(profile.duration, {
+      leading: true,
+    })}) time has ended.`;
+
+  playSound(sound!, volume);
+
+  const title = "Time's up!";
+  const icon = `assets/icon.png`;
+  if (enabled) showToastNotification(title, message, icon);
+}
+
 // TIMER CONTROLS -------------------------------------------------------------
 function startTimer(profileId: string) {
   const profile = data.settings.profiles.find((p) => p.id === profileId);
   if (!profile) return;
 
   data.currentProfile = profileId;
-  data.timer = profile.duration * 1000 + 999; // Add 999ms to account for the first tick
+  data.timer = profile.duration + 999; // Add 999ms to account for the first tick
   data.isRunning = true;
 }
 
@@ -197,9 +309,16 @@ export default {
   newProfile,
   deleteProfile,
   getCurrentProfile,
+  getTextColor,
+  setColors,
 
   addToHistory,
   clearHistory,
+
+  requestBrowserNotification,
+  showToastNotification,
+  playSound,
+  showNotification,
 
   startTimer,
   pauseTimer,

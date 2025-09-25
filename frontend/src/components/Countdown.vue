@@ -24,9 +24,10 @@ const formattedTime = computed(() => {
   text-align: center;
   justify-content: center;
   font-size: 8rem;
-  font-family: 'Anton', sans-serif;
-  font-weight: 400;
+  font-family: var(--font-family-display);
   line-height: 1;
+  user-select: none;
+  cursor: default;
 }
 .countdown--stopped {
   animation: blink-animation 3s ease-out 0s infinite;

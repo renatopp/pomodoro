@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 
 const props = defineProps<{
-  history: Array<number>
+  data: Array<number>
 }>()
 
 function lerp(a: number, b: number, t: number): number {
@@ -18,11 +18,12 @@ function computeSize(d: number): number {
   const size = minSize + (maxSize - minSize) * (clip(d, 5, 25) - 5)/20;
   return size;
 }
+
 </script>
 
 <template>
 <div class="history">
-  <span v-for="(item, key) in props.history" :key="key" class="dot" :data-size="computeSize(item)"></span>
+  <span v-for="(item, key) in props.data" :key="key" class="dot" :style="`height: ${computeSize(item)}px; width: ${computeSize(item)}px;`"></span>
 </div>
 </template>
 
@@ -31,13 +32,13 @@ function computeSize(d: number): number {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: var(--height-input);
+  gap: 5px;
 }
 
 .dot {
-  margin: 5px;
-  height: attr(data-size px);
-  width: attr(data-size px);
-  background-color: #FFF;
+  display: inline-flex;
+  background-color: var(--js-color-text, white);
   border-radius: 50%;
   display: inline-flex;
 }

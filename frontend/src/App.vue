@@ -19,7 +19,6 @@ function updateColors() {
   const lightContrast = chroma.contrast(backgroundColor.value, light);
   const darkContrast = chroma.contrast(backgroundColor.value, dark);
   
-  console.log('Background color updated to:', backgroundColor.value, lightContrast, darkContrast);
   if (lightContrast >= 2) {
     textColor.value = light;
   } else {
@@ -33,10 +32,7 @@ watch(() => store.state.settings.displayDarkColor, updateColors, { immediate: tr
 </script>
 
 <template>
-  <main class="app" :style="`
-    --bg: ${backgroundColor};
-    --fg: ${textColor};
-  `">
+  <main class="app">
     <TitleBar />
     <Transition class="views" name="fadescale" mode="out-in">
       <TimerView v-if="store.state.page === 'timer'" />
@@ -51,8 +47,6 @@ watch(() => store.state.settings.displayDarkColor, updateColors, { immediate: tr
   display: flex;
   flex-direction: column;
   height: 100%;
-  // background-color: var(--bg, red);
-  // color: var(--fg, #FFFCEA);
 
   transition:
     background-color 0.5s ease,

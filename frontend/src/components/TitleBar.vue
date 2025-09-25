@@ -46,9 +46,8 @@ function winClose() {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
-  height: 30px;
+  height: var(--height-titlebar);
   padding: 0;
-
   user-select: none;
 
   &__spacer {
@@ -59,19 +58,16 @@ function winClose() {
     gap: 0;
     a {
       --wails-draggable: no-drag;
-
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 30px;
-      height: 30px;
+      width: var(--height-titlebar);
+      height: var(--height-titlebar);
       text-decoration: none;
-      color: inherit;
-      font-size: 1.2rem;
-      cursor: pointer;
+      font-size: var(--font-size-lg);
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: var(--color-input-idle);
       }
     }
   }

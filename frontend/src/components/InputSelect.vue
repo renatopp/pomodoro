@@ -2,7 +2,15 @@
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
   modelValue: null,
-  options: Array
+  options: Array,
+  optionId: {
+    type: Function,
+    default: (option) => option?.id
+  },
+  optionLabel: {
+    type: Function,
+    default: (option) => option?.name
+  },
 })
 
 function emitValue(e) {
@@ -18,9 +26,9 @@ function emitValue(e) {
       <option
         class="form-element__select__option"
         v-for="(obj, key) in props.options"
-        :value="obj.key"
+        :value="props.optionId(obj)"
         :key="key">
-        {{ obj.value }}
+        {{ props.optionLabel(obj) }}
       </option>
     </select>
   </span>

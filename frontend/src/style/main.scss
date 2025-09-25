@@ -1,3 +1,4 @@
+@use 'variables';
 @use 'reset';
 @use 'form';
 
@@ -25,27 +26,27 @@
     url("assets/fonts/anton-regular.ttf") format("truetype");
 }
 
-:root {
-  --primary-color: #FF5D5D;
-  --text-color: #FFFCEA;
-  --font-primary: 'Work Sans', sans-serif;
-  --font-mono: 'Ubuntu Mono', monospace;
-  --font-display: 'Anton', sans-serif;
-}
 
 html, body, #app {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
-  font-size: 1rem;;
-  font-family: 'Work Sans', sans-serif;
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  
-  transition: 
-    background-color 0.5s ease,
-    color 0.5s ease;
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  background-color: var(--js-color-background);
+  color: var(--js-color-text);
+
+  transition:
+    background-color var(--transition-very-slow) ease,
+    color var(--transition-very-slow) ease;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast) ease;
 }
 
 // ANIMATIONS
@@ -78,22 +79,15 @@ html, body, #app {
 }
 
 // SCROLLBAR
-/* width */
 ::-webkit-scrollbar {
-  width: 3px;
+  width: var(--height-scrollbar);
 }
-
-/* Track */
 ::-webkit-scrollbar-track {
-  background: fade-out(white, .9);
+  background: var(--color-input-idle);
 }
-
-/* Handle */
 ::-webkit-scrollbar-thumb {
-  background: fade-out(white, .1);
+  background: var(--color-input-hover);
 }
-
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: fade-out(white, 0);
+  background: var(--color-input-active);
 }

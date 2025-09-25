@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 
-import store from '../store';
+import store, { SoundSources } from '../store';
 import History from '../components/History.vue';
 import InputCheckbox from '../components/InputCheckbox.vue';
 import InputRange from '../components/InputRange.vue';
@@ -9,17 +9,48 @@ import InputSelect from '../components/InputSelect.vue';
 import InputColor from '../components/InputColor.vue';
 import formatTime from 'format-duration'
 
-const sounds = [
-  { value: 'bell', label: 'Bell' },
-  { value: 'chime', label: 'Chime' },
-  { value: 'alert', label: 'Alert' },
-];
-
 const historyMockPool = [25, 5, 25, 5, 25, 5, 25, 15];
+const historyMock = ref([] as number[]);
 
 function isDesktop() {
   return (window as any).runtime !== undefined
 }
+
+function handleNotificationEnabled(value: boolean) {
+  if (value) store.requestBrowserNotification();
+}
+
+function handleNotificationSound(value: string) {
+  const source = SoundSources.find(s => s.id === value)?.path;
+  const volume = store.state.settings.notificationVolume;
+  store.playSound(source!, volume);
+}
+
+function handleNotificationTest() {
+  store.showNotification()
+}
+
+function handleHistoryMaxChange(value: number) {
+  historyMock.value = [];
+  for (let i = 0; i < value; i++) {
+    const idx = i % historyMockPool.length;
+    historyMock.value.push(historyMockPool[idx]);
+  }
+}
+handleHistoryMaxChange(store.state.settings.historyMax);
+
+function handleHistoryClear() {
+  store.clearHistory();
+}
+
+onMounted(() => {
+  store.setColors("#E65454")
+})
+
+onUnmounted(() => {
+  store.setColors()
+})
+
 </script>
 
 <template>
@@ -29,15 +60,11 @@ function isDesktop() {
       <div class="form">
         <hgroup>
           <h1>Settings</h1>
-          <!-- <small><input type="button" class="operation" value="Reset All"/></small> -->
         </hgroup>
-
-        <!-- <small>Will show a notification after each session if enabled.</small> -->
           
         <div class="form__group">
           <hgroup>
             <h2>Notifications</h2>
-            <!-- <small><input type="button" class="operation" value="Test"/></small> -->
           </hgroup>
 
           <div class="form__item">
@@ -46,7 +73,7 @@ function isDesktop() {
               <small>Will show a notification after each session if enabled.</small>
             </hgroup>
             <div class="input">
-              <input-checkbox v-model="store.state.settings.notificationEnabled" />
+              <input-checkbox v-model="store.state.settings.notificationEnabled" @update:model-value="handleNotificationEnabled" />
             </div>
           </div>
           
@@ -58,7 +85,8 @@ function isDesktop() {
             <div class="input">
               <input-select
                 v-model="store.state.settings.notificationSound"
-                :options="sounds"
+                :options="SoundSources"
+                @update:model-value="handleNotificationSound"
               />
             </div>
           </div>
@@ -69,7 +97,7 @@ function isDesktop() {
               <small>Volume level of the alarm sound.</small>
             </hgroup>
             <div class="input">
-              <input-range :min="0" :max="100" :step="1" :model-value="store.state.settings.notificationVolume" />
+              <input-range :min="0" :max="100" :step="1" v-model="store.state.settings.notificationVolume" />
             </div>
           </div>
 
@@ -79,7 +107,7 @@ function isDesktop() {
               <small>Show a notification example.</small>
             </hgroup>
             <div class="input">
-              <button>Test a notification</button>
+              <button @click="handleNotificationTest">Test a notification</button>
             </div>
           </div>
         </div>
@@ -88,7 +116,6 @@ function isDesktop() {
         <div class="form__group">
           <hgroup>
             <h2>History</h2>
-            <!-- <small><input type="button" class="operation" value="Clear"/></small> -->
           </hgroup>
 
           <div class="form__item">
@@ -107,7 +134,7 @@ function isDesktop() {
               <small>Maximum number of completed session indicators to show.</small>
             </hgroup>
             <div class="input" style="flex-direction: column;">
-              <input-range :min="0" :max="15" :step="1" :model-value="store.state.settings.historyMax" />
+              <input-range :min="0" :max="15" :step="1" v-model="store.state.settings.historyMax" @update:model-value="handleHistoryMaxChange" />
             </div>
           </div>
 
@@ -117,7 +144,7 @@ function isDesktop() {
               <small>This is how the history will look like.</small>
             </hgroup>
             <div class="input" style="flex-direction: column;">
-              <history :history="historyMockPool"/>
+              <history :data="historyMock"/>
             </div>
           </div>
           
@@ -128,7 +155,7 @@ function isDesktop() {
               <small>Clear the history.</small>
             </hgroup>
             <div class="input">
-              <button>Clear the history</button>
+              <button @click="handleHistoryClear">Clear the history</button>
             </div>
           </div>
           
@@ -155,11 +182,9 @@ function isDesktop() {
             <div class="input">
               <div class="display-colors">
                 <div class="display-colors__light">
-                  <!-- Light -->
                   <input-color v-model="store.state.settings.displayLightColor" />
                 </div>
                 <div class="display-colors__dark">
-                  <!-- Dark -->
                   <input-color v-model="store.state.settings.displayDarkColor" />
                 </div>
               </div>
@@ -257,7 +282,7 @@ function isDesktop() {
 
 <style lang="scss" scoped>
 .view {
-  background-color: fade-out(#2A2D34, 0.8);
+  // background-color: fade-out(#2A2D34, 0.8);
 
   &__content {
     max-width: 600px;
@@ -274,7 +299,7 @@ function isDesktop() {
       flex: 1 1 auto;
       display: flex;
       // justify-content: center;
-      // align-items: center;
+      align-items: center;
       // flex-direction: row-reverse
     }
   }

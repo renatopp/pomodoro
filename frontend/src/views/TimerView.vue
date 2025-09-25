@@ -38,7 +38,7 @@ function getClassState() {
 
         <div class="spacer"></div>
         
-        <history :data="store.state.history" />
+        <history v-if="store.state.settings.historyEnabled" :data="store.state.history" />
       </div>
 
     </div>

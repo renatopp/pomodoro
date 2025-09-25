@@ -7,7 +7,7 @@ const DEFAULT_LIGHT_COLOR = "#FFFCEA";
 const DEFAULT_DARK_COLOR = "#1A1A1A";
 const DEFAULT_WORK_COLOR = "#FF5D5D";
 const DEFAULT_SHORT_COLOR = "#087E8B";
-const DEFAULT_LONG_COLOR = "#6CC551";
+const DEFAULT_LONG_COLOR = "#AA00FF";
 
 export type Pages = "timer" | "settings";
 export const SoundSources = [
@@ -63,6 +63,7 @@ const defaultProfiles = {
   Work: new Profile("Work", 25 * 60 * 1000, DEFAULT_WORK_COLOR),
   Short: new Profile("Short", 5 * 60 * 1000, DEFAULT_SHORT_COLOR),
   Long: new Profile("Long", 15 * 60 * 1000, DEFAULT_LONG_COLOR),
+  Test: new Profile("Test", 5 * 1000, "#6CC551"),
 };
 
 export class State {
@@ -82,11 +83,7 @@ export class State {
     displayChangeTitle: true,
     displayLightColor: DEFAULT_LIGHT_COLOR,
     displayDarkColor: DEFAULT_DARK_COLOR,
-    profiles: [
-      defaultProfiles.Work,
-      defaultProfiles.Short,
-      defaultProfiles.Long,
-    ],
+    profiles: Object.values(defaultProfiles),
   };
 
   public callbacks: (() => void)[] = [];
@@ -171,13 +168,13 @@ function setColors(bg?: string, fg?: string, fgAlt?: string) {
 function resetTextColors() {
   data.settings.displayLightColor = DEFAULT_LIGHT_COLOR;
   data.settings.displayDarkColor = DEFAULT_DARK_COLOR;
-  setColors();
+  const app = document.getElementById("app")!;
+  app.style.setProperty("--js-color-text", DEFAULT_LIGHT_COLOR);
+  app.style.setProperty("--js-color-text-inv", DEFAULT_DARK_COLOR);
 }
 
 // HISTORY CONTROLS -----------------------------------------------------------
 function addToHistory(duration: number) {
-  if (!data.settings.historyEnabled) return;
-
   data.history.unshift(duration);
   if (data.history.length > data.settings.historyMax) {
     data.history.pop();
@@ -298,9 +295,11 @@ function _tick() {
     data.isRunning = false;
     addToHistory(getCurrentProfile().duration);
     data.callbacks.forEach((cb) => cb());
+    showNotification();
   }
   _updateTitle();
 }
+
 function _updateTitle() {
   if (!data.settings.displayChangeTitle) {
     document.title = "Pomodoro";

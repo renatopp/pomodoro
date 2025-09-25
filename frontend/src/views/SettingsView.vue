@@ -7,9 +7,12 @@ import InputCheckbox from '../components/InputCheckbox.vue';
 import InputRange from '../components/InputRange.vue';
 import InputSelect from '../components/InputSelect.vue';
 import InputColor from '../components/InputColor.vue';
+import InputText from '../components/InputText.vue';
+import FeedbackButton from '../components/FeedbackButton.vue';
 import formatTime from 'format-duration'
+import { Vue3ColorPicker } from '@cyhnkckali/vue3-color-picker';
 
-const historyMockPool = [25, 5, 25, 5, 25, 5, 25, 15];
+const historyMockPool = [25000, 5000, 25000, 5000, 25000, 5000, 25000, 15000];
 const historyMock = ref([] as number[]);
 
 function isDesktop() {
@@ -64,7 +67,7 @@ onUnmounted(() => {
 <template>
   <main class="view">
     <div class="view__content">
-
+      
       <div class="form">
         <hgroup>
           <h1>Settings</h1>
@@ -115,7 +118,7 @@ onUnmounted(() => {
               <small>Show a notification example.</small>
             </hgroup>
             <div class="input">
-              <button @click="handleNotificationTest">Test a notification</button>
+              <feedback-button feedback="Done!" @click="handleNotificationTest">Test a notification</feedback-button>
             </div>
           </div>
         </div>
@@ -142,7 +145,7 @@ onUnmounted(() => {
               <small>Maximum number of completed session indicators to show.</small>
             </hgroup>
             <div class="input" style="flex-direction: column;">
-              <input-range :min="0" :max="15" :step="1" v-model="store.state.settings.historyMax" @update:model-value="handleHistoryMaxChange" />
+              <input-range :min="0" :max="16" :step="1" v-model="store.state.settings.historyMax" @update:model-value="handleHistoryMaxChange" />
             </div>
           </div>
 
@@ -163,7 +166,7 @@ onUnmounted(() => {
               <small>Clear the history.</small>
             </hgroup>
             <div class="input">
-              <button @click="handleHistoryClear">Clear the history</button>
+              <feedback-button feedback="Cleared!" @click="handleHistoryClear">Clear the history</feedback-button>
             </div>
           </div>
           
@@ -207,7 +210,7 @@ onUnmounted(() => {
               <small>Reset the color settings to default.</small>
             </hgroup>
             <div class="input">
-              <button @click="handleColorReset">Reset Colors</button>
+              <feedback-button feedback="Done!" @click="handleColorReset">Reset colors</feedback-button>
             </div>
           </div>
           
@@ -231,16 +234,20 @@ onUnmounted(() => {
               v-for="profile in store.state.settings.profiles"
               :key="profile.id"
               class="profiles__item"
-              :style="`background-color: ${profile.color}`">
+              :style="`background-color: ${profile.color}; color: ${store.getTextColor(profile.color)}`">
 
-              <div class="profiles__header">
-                <input type="text" :value="profile.name" class="profiles__name"/>
-                <input-color v-model="profile.color" style="border: 1px solid white"/>
+              <div>
+                <span class="duration">{{ formatTime(profile.duration, { leading: true }) }}</span>
+                <input-range :min="60*1000" :max="60*60*1000" :step="60*1000" :show-input="false" v-model="profile.duration" />
+                <input-text v-model="profile.name" class="profiles__name" style="width: 100%"/>
+              </div>
+              
+              <!-- <div class="profiles__header">
+                <input type="text" v-model="profile.name" class="profiles__name"/>
+                <input-color v-model="profile.color"/>
               </div>
               <div class="profiles__content">
-                <input-range :min="60*1000" :max="60*60*1000" :step="60*1000" :show-input="false" v-model="profile.duration" />
-                <span class="duration">{{ formatTime(profile.duration, { leading: true }) }}</span>
-              </div>
+              </div> -->
             </div>
             <div class="profiles__item--add">+</div>
           </div>
@@ -251,7 +258,7 @@ onUnmounted(() => {
               <small>Reset the profile settings to default.</small>
             </hgroup>
             <div class="input">
-              <button>Reset Profiles</button>
+              <feedback-button feedback="Done!" @click="">Reset profile</feedback-button>
             </div>
           </div>
   
@@ -269,7 +276,7 @@ onUnmounted(() => {
               <small>Reset all configuration.</small>
             </hgroup>
             <div class="input">
-              <button>Reset Configs</button>
+              <feedback-button feedback="Done!" @click="handleColorReset">Reset colors</feedback-button>
             </div>
           </div>
   
@@ -279,7 +286,7 @@ onUnmounted(() => {
               <small>You can also click on ∴ symbol on the top bar.</small>
             </hgroup>
             <div class="input">
-              <button>Save and Back</button>
+              <button>Save and back</button>
             </div>
           </div>
   

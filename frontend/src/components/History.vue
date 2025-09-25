@@ -15,7 +15,7 @@ function clip(value: number, min: number, max: number): number {
 function computeSize(d: number): number {
   const minSize = 3;
   const maxSize = 10;
-  const size = minSize + (maxSize - minSize) * (clip(d, 5, 25) - 5)/20;
+  const size = minSize + (maxSize - minSize) * (clip(d, 5000, 25000) - 5000)/(20000);
   return size;
 }
 

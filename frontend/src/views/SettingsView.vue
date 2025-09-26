@@ -12,7 +12,8 @@ import FeedbackButton from '../components/FeedbackButton.vue';
 import ProfileCard from '../components/ProfileCard.vue';
 import formatTime from 'format-duration'
 
-const historyMockPool = [25000, 5000, 25000, 5000, 25000, 5000, 25000, 15000];
+const min = 60*1000;
+const historyMockPool = [25*min, 5*min, 25*min, 5*min, 25*min, 5*min, 25*min, 15*min];
 const historyMock = ref([] as number[]);
 
 function isDesktop() {

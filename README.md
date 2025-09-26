@@ -1,29 +1,10 @@
-# pomodoro
+# Pomodoro
 
-This template should help get you started developing with Vue 3 in Vite.
+A minimalist pomodoro app for web and desktop.
 
-## Recommended IDE Setup
+![Pomodoro App](.docs/.static/ss-timer-stopped.jpg)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Installation
 
-## Customize configuration
+You can try it out online at [pomodoro.r2p.dev](http://pomodoro.r2p.dev) or download the latest desktop release at [github.com/renatopp/pomodoro/releases](https://github.com/renatopp/pomodoro/releases/latest)
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-pnpm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-pnpm dev
-```
-
-### Compile and Minify for Production
-
-```sh
-pnpm build
-```

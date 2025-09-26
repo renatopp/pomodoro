@@ -1,0 +1,93 @@
+@use 'variables';
+@use 'reset';
+@use 'form';
+
+@font-face {
+    font-family: "Ubuntu Mono";
+    font-style: normal;
+    font-weight: 400;
+    src: local(""),
+    url("assets/fonts/ubuntu-mono-regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Work Sans";
+    font-style: normal;
+    font-weight: 400;
+    src: local(""),
+    url("assets/fonts/work-sans-regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Anton";
+    font-style: normal;
+    font-weight: 400;
+    src: local(""),
+    url("assets/fonts/anton-regular.ttf") format("truetype");
+}
+
+
+html, body, #app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  // background-color: var(--js-color-background);
+  // color: var(--js-color-text);
+
+  // transition:
+  //   background-color var(--transition-very-slow) ease,
+  //   color var(--transition-very-slow) ease;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast) ease;
+}
+
+// ANIMATIONS
+.fadescale-enter-active,
+.fadescale-leave-active {
+  transition: opacity .3s ease;
+}
+
+.fadescale-enter-to,
+.fadescale-leave-from {
+  opacity: 1;
+}
+
+.fadescale-enter-from,
+.fadescale-leave-to {
+  opacity: 0;
+}
+
+// HELPERS
+.spacer {
+  flex: 1 1 auto;
+}
+.spacer.vertical {
+  display: flex;
+  flex-direction: column;
+}
+.spacer.horizontal {
+  display: flex;
+  flex-direction: row;
+}
+
+// SCROLLBAR
+::-webkit-scrollbar {
+  width: var(--height-scrollbar);
+}
+::-webkit-scrollbar-track {
+  background: var(--color-input-idle);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-input-hover);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-input-active);
+}

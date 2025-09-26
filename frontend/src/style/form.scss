@@ -1,0 +1,108 @@
+
+.form {
+  color: #FFFCEA;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+
+  h1 {
+    // font-size:
+    line-height: 1.1;
+  }
+  h2 {
+    font-size: 0.6rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-top: 20px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    opacity: 0.8;
+    // line-height: 0.6;
+    // border-top: currentColor 1px solid;
+    border-bottom: currentColor 1px solid;
+  }
+  h3 {
+    font-size: 1rem;
+  }
+  input.operation {
+    font-family: 'Ubuntu Mono', monospace;
+    font-size: .9em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0 4px;
+    border: none;
+    // border-left: 1px #fff solid;
+    background-color: transparent;
+    transition: all 0.05s ease;
+    color: #fff;
+    &:hover {
+      color: #FFFCEA;
+      // border-left: 1px #FFFCEA solid;
+      background-color: rgba(255, 255, 255, 0.1);
+      // color: #2D232E;
+    }
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    // background-color: fade-out($color: black, $amount: 0.8);
+    // border-radius: 8px;
+    // padding: 24px;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    // border-top: 1px currentColor solid;
+    padding: 12px 0;
+
+    .label {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      width: 50%;
+    }
+    .input {
+      flex-direction: row;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      width: 50%;
+    }
+  }
+}
+
+select {
+  padding: 8px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  color: #333;
+  width: 100%;
+}
+
+button {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 1rem;
+  height: 2rem;
+  padding: 0 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.05s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+
+

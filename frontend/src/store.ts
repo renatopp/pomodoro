@@ -46,7 +46,7 @@ interface Settings {
   profiles: Profile[];
 }
 
-class Profile {
+export class Profile {
   public id = crypto.randomUUID();
   public name: string = "Default";
   public duration: number = 25 * 60 * 1000; // in milliseconds
@@ -57,13 +57,29 @@ class Profile {
     this.duration = duration;
     this.color = color;
   }
+
+  copy(): Profile {
+    const p = new Profile(this.name, this.duration, this.color);
+    p.id = this.id;
+    return p;
+  }
+
+  static from(p: Partial<Profile>): Profile {
+    const profile = new Profile(
+      p.name || "Default",
+      p.duration || 25 * 60 * 1000,
+      p.color || chroma.random().hex()
+    );
+    profile.id = p.id || crypto.randomUUID();
+    return profile;
+  }
 }
 
 const defaultProfiles = {
   Work: new Profile("Work", 25 * 60 * 1000, DEFAULT_WORK_COLOR),
   Short: new Profile("Short", 5 * 60 * 1000, DEFAULT_SHORT_COLOR),
   Long: new Profile("Long", 15 * 60 * 1000, DEFAULT_LONG_COLOR),
-  Test: new Profile("Test", 5 * 1000, "#6CC551"),
+  // Test: new Profile("Test", 5 * 1000, "#6CC551"),
 };
 
 export class State {
@@ -73,7 +89,14 @@ export class State {
   public isRunning: boolean = false;
   public currentProfile: string = defaultProfiles.Work.id;
   public history: number[] = [];
-  public settings: Settings = {
+  public settings: Settings = newSettings();
+  public callbacks: (() => void)[] = [];
+}
+
+const data = reactive(loadState());
+
+function newSettings(): Settings {
+  return {
     historyEnabled: true,
     historyMax: 9,
     notificationEnabled: false,
@@ -83,13 +106,14 @@ export class State {
     displayChangeTitle: true,
     displayLightColor: DEFAULT_LIGHT_COLOR,
     displayDarkColor: DEFAULT_DARK_COLOR,
-    profiles: Object.values(defaultProfiles),
+    profiles: Object.values(defaultProfiles).map((p) => p.copy()),
   };
-
-  public callbacks: (() => void)[] = [];
 }
 
-const data = reactive(loadState());
+function resetAll() {
+  data.settings = newSettings();
+  setColors();
+}
 
 // APPLICATION CONTROLS -------------------------------------------------------
 function setPage(page: Pages) {
@@ -98,16 +122,32 @@ function setPage(page: Pages) {
 }
 
 function saveState() {
-  localStorage.setItem("state", JSON.stringify(data));
+  localStorage.setItem(
+    "state",
+    JSON.stringify({
+      version: data.version,
+      settings: data.settings,
+    })
+  );
 }
 
 function loadState(): State {
   const saved = localStorage.getItem("state");
   const data = reactive(new State());
   if (saved) {
-    Object.assign(data, JSON.parse(saved));
+    const parsed = JSON.parse(saved);
+    parsed.settings.profiles = parsed.settings.profiles.map((p: any) =>
+      Profile.from(p)
+    );
+    data.version = parsed.version || 1;
+    data.settings = { ...data.settings, ...parsed.settings };
+    data.currentProfile = data.settings.profiles[0].id;
   }
   return data;
+}
+
+function clearState() {
+  localStorage.removeItem("state");
 }
 
 // SETTINGS CONTROLS ----------------------------------------------------------
@@ -173,6 +213,10 @@ function resetTextColors() {
   app.style.setProperty("--js-color-text-inv", DEFAULT_DARK_COLOR);
 }
 
+function resetProfiles() {
+  data.settings.profiles = Object.values(defaultProfiles).map((p) => p.copy());
+}
+
 // HISTORY CONTROLS -----------------------------------------------------------
 function addToHistory(duration: number) {
   data.history.unshift(duration);
@@ -213,7 +257,6 @@ async function showToastNotification(
 async function playSound(sound: string, volume: number) {
   if (!sound) return;
   try {
-    console.log("Playing sound:", sound, "at volume:", volume);
     const audio = new Audio(sound);
     audio.volume = volume / 100;
     audio.play();
@@ -307,15 +350,20 @@ function _updateTitle() {
   }
   document.title = `${formatTime(data.timer, { leading: true })} - Pomodoro`;
 }
+
 setInterval(_tick, 50);
 _updateTitle();
+setColors();
 
 export default {
   state: data,
 
+  resetAll,
+
   setPage,
   saveState,
   loadState,
+  clearState,
 
   newProfile,
   deleteProfile,
@@ -323,6 +371,7 @@ export default {
   getTextColor,
   setColors,
   resetTextColors,
+  resetProfiles,
 
   addToHistory,
   clearHistory,

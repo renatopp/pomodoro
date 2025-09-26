@@ -46,6 +46,8 @@ function emitValue(e) {
 
 
 <style lang="scss" scoped>
+@use "sass:color";
+
 .form-element {
   justify-content: center;
   align-items: center;
@@ -89,7 +91,7 @@ function emitValue(e) {
   font-size: 1rem;
   width: 50px;
   height: 2rem;
-  background: fade-out($color: white, $amount: .8);
+  background: color.adjust($color: white, $alpha: -.8);
   outline: 0;
   border: 0;
   border-radius: 5px;

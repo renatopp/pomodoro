@@ -9,8 +9,8 @@ import InputSelect from '../components/InputSelect.vue';
 import InputColor from '../components/InputColor.vue';
 import InputText from '../components/InputText.vue';
 import FeedbackButton from '../components/FeedbackButton.vue';
+import ProfileCard from '../components/ProfileCard.vue';
 import formatTime from 'format-duration'
-import { Vue3ColorPicker } from '@cyhnkckali/vue3-color-picker';
 
 const historyMockPool = [25000, 5000, 25000, 5000, 25000, 5000, 25000, 15000];
 const historyMock = ref([] as number[]);
@@ -54,12 +54,25 @@ function handleColorReset() {
   store.resetTextColors();
 }
 
+function handleProfilesReset() {
+  store.resetProfiles();
+}
+
+function handleResetAll() {
+  store.resetAll();
+}
+
+function handleSaveAndBack() {
+  store.setPage("timer");
+}
+
 onMounted(() => {
   store.setColors("#E65454")
 })
 
 onUnmounted(() => {
   store.setColors()
+  store.saveState();
 })
 
 </script>
@@ -188,7 +201,7 @@ onUnmounted(() => {
           <div class="form__item">
             <hgroup class="label">
               <h3>Text Colors</h3>
-              <small>Text colors are selected based on best profile colors.</small>
+              <small>We will pick the color that will best fit into the profile background.</small>
             </hgroup>
             <div class="input">
               <div class="display-colors">
@@ -219,37 +232,20 @@ onUnmounted(() => {
         <div class="form__group">
           <hgroup>
             <h2>Profiles</h2>
-            <!-- <small><input type="button" class="operation" value="Reset"/></small> -->
           </hgroup>
           
           <div class="form__item" style="margin: 0; padding: 0;">
             <hgroup class="label">
               <h3>Profiles</h3>
-              <!-- <small>Reset the profile settings to default.</small> -->
             </hgroup>
           </div>
           
-          <div class="profiles">
-            <div
-              v-for="profile in store.state.settings.profiles"
-              :key="profile.id"
-              class="profiles__item"
-              :style="`background-color: ${profile.color}; color: ${store.getTextColor(profile.color)}`">
-
-              <div>
-                <span class="duration">{{ formatTime(profile.duration, { leading: true }) }}</span>
-                <input-range :min="60*1000" :max="60*60*1000" :step="60*1000" :show-input="false" v-model="profile.duration" />
-                <input-text v-model="profile.name" class="profiles__name" style="width: 100%"/>
-              </div>
-              
-              <!-- <div class="profiles__header">
-                <input type="text" v-model="profile.name" class="profiles__name"/>
-                <input-color v-model="profile.color"/>
-              </div>
-              <div class="profiles__content">
-              </div> -->
-            </div>
-            <div class="profiles__item--add">+</div>
+          <div class="profile-list">            
+            <profile-card
+              v-for="(_, key) in store.state.settings.profiles"
+              :key="key"
+              v-model="store.state.settings.profiles[key]"
+              class="profile-list__item"/>
           </div>
           
           <div class="form__item">
@@ -258,7 +254,7 @@ onUnmounted(() => {
               <small>Reset the profile settings to default.</small>
             </hgroup>
             <div class="input">
-              <feedback-button feedback="Done!" @click="">Reset profile</feedback-button>
+              <feedback-button feedback="Done!" @click="handleProfilesReset">Reset profile</feedback-button>
             </div>
           </div>
   
@@ -276,7 +272,7 @@ onUnmounted(() => {
               <small>Reset all configuration.</small>
             </hgroup>
             <div class="input">
-              <feedback-button feedback="Done!" @click="handleColorReset">Reset colors</feedback-button>
+              <feedback-button feedback="Done!" @click="handleResetAll">Reset all settings</feedback-button>
             </div>
           </div>
   
@@ -286,7 +282,7 @@ onUnmounted(() => {
               <small>You can also click on ∴ symbol on the top bar.</small>
             </hgroup>
             <div class="input">
-              <button>Save and back</button>
+              <button @click="handleSaveAndBack">Save and back</button>
             </div>
           </div>
   
@@ -298,6 +294,8 @@ onUnmounted(() => {
 </template>
 
 <style lang="scss" scoped>
+@use "sass:color";
+
 .view {
   // background-color: fade-out(#2A2D34, 0.8);
 
@@ -323,70 +321,14 @@ onUnmounted(() => {
     }
   }
   
-  .profiles {
+  .profile-list {
     display: flex;
-    gap: 10px;
-    // padding: 12px 0;
-    flex-wrap: wrap;
+    gap: var(--spacing-sm);
 
     &__item {
-      flex: 1 1 auto;
-      width: 30%;
-      padding: 10px;
-      padding-bottom: 15px;
-      background: red;
-      border-radius: 5px;
-      height: 150px;
-
-      &--add {
-        display: inline-flex;
-        height: 150px;
-        width: 33%;
-        border-radius: 5px;
-        justify-content: center;
-        align-items: center;
-        font-size: 2rem;
-        font-weight: bold;
-        background: fade-out(white, 0.8);
-        color: white;
-        cursor: pointer;
-      }
+      flex: 1 1 0;
+      min-width: 0;
     }
-
-    &__header {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    &__content {
-      
-    }
-
-    &__name {
-      width: 100%;
-      border: none;
-      border-radius: 5px;
-      height: 2rem;
-      font-size: 1rem;
-      text-align: left;
-      outline: none;
-      background: transparent;
-      color: white;
-      font-weight: bold;
-      
-      &:focus {
-        outline: 1px solid white;
-      }
-    }
-
-    .duration {
-      font-family: 'Anton', sans-serif;
-      font-size: 2rem;
-      display: inline-flex;
-      width: 100%;
-      justify-content: center;
-    }
-  }
+ }
 }
 </style>

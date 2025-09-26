@@ -11,16 +11,16 @@ const props = defineProps({
 
 
 <template>
-  <span class="form-element">
     <input
       class="form-element__text"
       type="text"
       v-model="model"/>
-  </span>
 </template>
 
 
 <style lang="scss" scoped>
+@use "sass:color";
+
 .form-element {
   justify-content: center;
   align-items: center;
@@ -33,9 +33,8 @@ const props = defineProps({
 .form-element__text {
   appearance: none;
   font-size: 1rem;
-  width: 50px;
   height: 2rem;
-  background: fade-out($color: white, $amount: .8);
+  background: color.adjust($color: white, $alpha: -.8);
   outline: 0;
   border: 0;
   border-radius: 5px;

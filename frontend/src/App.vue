@@ -13,7 +13,6 @@ function updateColors() {
   const profile = store.getCurrentProfile();
   backgroundColor.value = profile.color;
 
-  
   const light = store.state.settings.displayLightColor;
   const dark = store.state.settings.displayDarkColor;
   const lightContrast = chroma.contrast(backgroundColor.value, light);
@@ -47,6 +46,9 @@ watch(() => store.state.settings.displayDarkColor, updateColors, { immediate: tr
   display: flex;
   flex-direction: column;
   height: 100%;
+
+  background-color: var(--js-color-background);
+  color: var(--js-color-text);
 
   transition:
     background-color 0.5s ease,

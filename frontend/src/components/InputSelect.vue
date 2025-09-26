@@ -36,6 +36,7 @@ function emitValue(e) {
 
 
 <style lang="scss" scoped>
+@use "sass:color";
 
 .form-element {
   position: relative;
@@ -50,7 +51,7 @@ function emitValue(e) {
   width: 100%;
   height: 2rem;
   position: relative;
-  background-color: fade-out($color: white, $amount: .8);
+  background-color: color.adjust($color: white, $alpha: -.8);
   color: white;
   padding: 0 1rem;
 
@@ -66,7 +67,7 @@ function emitValue(e) {
   right: 0;
   width: 2rem;
   height: 2rem;
-  background-color: fade-out($color: white, $amount: .8);
+  background-color: color.adjust($color: white, $alpha: -.8);
   transition: .25s all ease;
   pointer-events: none;
   display: flex;
@@ -84,8 +85,8 @@ function emitValue(e) {
 }
 
 .form-element__select__option {
-  background-color: fade-out($color: white, $amount: .8);
-  color: fade-out($color: black, $amount: .2);
+  background-color: color.adjust($color: white, $alpha: -.8);
+  color: color.adjust($color: black, $alpha: -.2);
   padding: 10px;
 }
 

@@ -219,9 +219,9 @@ function resetProfiles() {
 
 // HISTORY CONTROLS -----------------------------------------------------------
 function addToHistory(duration: number) {
-  data.history.unshift(duration);
+  data.history.push(duration);
   if (data.history.length > data.settings.historyMax) {
-    data.history.pop();
+    data.history.shift();
   }
 }
 

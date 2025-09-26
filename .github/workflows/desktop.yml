@@ -2,7 +2,7 @@ name: Build and Deploy Desktop
 on:
   push:
     branches:
-      - v2
+      - main-disabled
 jobs:
   build:
     strategy:

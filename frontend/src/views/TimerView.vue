@@ -90,7 +90,7 @@ function getClassState() {
     // font-weight: 600;
     padding: 0.5rem 1rem;
     // border: 2px solid currentColor;
-    // border-radius: 8px;
+    border-radius: var(--radius-md);
     cursor: pointer;
     transition: all 0.05s ease;
 

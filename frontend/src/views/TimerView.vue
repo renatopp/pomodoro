@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { onMounted, onUnmounted } from 'vue';
 import Countdown from '../components/Countdown.vue';
 import History from '../components/History.vue';
 import store from '../store';
@@ -15,6 +16,21 @@ function handleProfileSelection(profileId: string) {
 function getClassState() {
   return store.state.isRunning ? 'hidden' : 'show';
 }
+
+function handleKeyPress(event: KeyboardEvent) {
+  if (event.code === 'Space') {
+    event.preventDefault();
+    store.toggleTimer();
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeyPress);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeyPress);
+});
 </script>
 
 <template>

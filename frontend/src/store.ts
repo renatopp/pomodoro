@@ -326,7 +326,9 @@ function startTimer(profileId: string) {
   if (!profile) return;
 
   data.currentProfile = profileId;
-  data.timer = profile.duration;
+  // Add a small buffer to avoid decrementing the timer immediately
+  // after the play
+  data.timer = profile.duration + 999;
   timerEndAt = Date.now() + data.timer;
   data.isRunning = true;
   _updateTitle();

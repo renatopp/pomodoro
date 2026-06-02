@@ -8,3 +8,11 @@ A minimalist pomodoro app for web and desktop.
 
 You can try it out online at [pomodoro.r2p.dev](http://pomodoro.r2p.dev) or download the latest desktop release at [github.com/renatopp/pomodoro/releases](https://github.com/renatopp/pomodoro/releases/latest)
 
+
+## Build
+
+### Linux
+
+```
+wails build -tags webkit2_41
+```

@@ -22,7 +22,7 @@ importers:
         version: 3.5.35(typescript@6.0.3)
       vue3-colorpicker:
         specifier: ^2.3.0
-        version: 2.3.0(@aesoper/normal-utils@0.1.5)(@popperjs/core@2.11.8)(@vueuse/core@10.11.1(vue@3.5.35(typescript@6.0.3)))(gradient-parser@1.1.1)(lodash-es@4.17.21)(tinycolor2@1.6.0)(vue-types@4.2.1(vue@3.5.35(typescript@6.0.3)))(vue@3.5.35(typescript@6.0.3))
+        version: 2.3.0(@aesoper/normal-utils@0.1.5)(@popperjs/core@2.11.8)(@vueuse/core@10.11.1(vue@3.5.35(typescript@6.0.3)))(gradient-parser@1.2.0)(lodash-es@4.18.1)(tinycolor2@1.6.0)(vue-types@4.2.1(vue@3.5.35(typescript@6.0.3)))(vue@3.5.35(typescript@6.0.3))
     devDependencies:
       '@babel/types':
         specifier: ^7.29.7
@@ -388,8 +388,8 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
 
-  gradient-parser@1.1.1:
-    resolution: {integrity: sha512-Hu0YfNU+38EsTmnUfLXUKFMXq9yz7htGYpF4x+dlbBhUCvIvzLt0yVLT/gJRmvLKFJdqNFrz4eKkIUjIXSr7Tw==}
+  gradient-parser@1.2.0:
+    resolution: {integrity: sha512-6ABGa9CR7WR/0pAJicBy5SJkiikbFM6kf/JjykwX7x+t+s8ORWVnlbi6FkHeFFb36yWsjUpHqSYrygd7ofEUqA==}
     engines: {node: '>=0.10.0'}
 
   immutable@5.1.6:
@@ -481,8 +481,8 @@ packages:
     resolution: {integrity: sha512-NXYBzinNrblfraPGyrbPoD19C1h9lfI/1mzgWYvXUTe414Gz/X1FD2XBZSZM7rRTrMA8JL3OtAaGifrIKhQ5yQ==}
     engines: {node: '>= 12.0.0'}
 
-  lodash-es@4.17.21:
-    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+  lodash-es@4.18.1:
+    resolution: {integrity: sha512-J8xewKD/Gk22OZbhpOVSwcs60zhd95ESDwezOFuA3/099925PdHJ7OFHNTGtajL3AlZkykD32HykiMo+BIBI8A==}
 
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
@@ -929,7 +929,7 @@ snapshots:
   fsevents@2.3.3:
     optional: true
 
-  gradient-parser@1.1.1: {}
+  gradient-parser@1.2.0: {}
 
   immutable@5.1.6: {}
 
@@ -992,7 +992,7 @@ snapshots:
       lightningcss-win32-arm64-msvc: 1.32.0
       lightningcss-win32-x64-msvc: 1.32.0
 
-  lodash-es@4.17.21: {}
+  lodash-es@4.18.1: {}
 
   magic-string@0.30.21:
     dependencies:
@@ -1090,13 +1090,13 @@ snapshots:
       is-plain-object: 5.0.0
       vue: 3.5.35(typescript@6.0.3)
 
-  vue3-colorpicker@2.3.0(@aesoper/normal-utils@0.1.5)(@popperjs/core@2.11.8)(@vueuse/core@10.11.1(vue@3.5.35(typescript@6.0.3)))(gradient-parser@1.1.1)(lodash-es@4.17.21)(tinycolor2@1.6.0)(vue-types@4.2.1(vue@3.5.35(typescript@6.0.3)))(vue@3.5.35(typescript@6.0.3)):
+  vue3-colorpicker@2.3.0(@aesoper/normal-utils@0.1.5)(@popperjs/core@2.11.8)(@vueuse/core@10.11.1(vue@3.5.35(typescript@6.0.3)))(gradient-parser@1.2.0)(lodash-es@4.18.1)(tinycolor2@1.6.0)(vue-types@4.2.1(vue@3.5.35(typescript@6.0.3)))(vue@3.5.35(typescript@6.0.3)):
     dependencies:
       '@aesoper/normal-utils': 0.1.5
       '@popperjs/core': 2.11.8
       '@vueuse/core': 10.11.1(vue@3.5.35(typescript@6.0.3))
-      gradient-parser: 1.1.1
-      lodash-es: 4.17.21
+      gradient-parser: 1.2.0
+      lodash-es: 4.18.1
       tinycolor2: 1.6.0
       vue: 3.5.35(typescript@6.0.3)
       vue-types: 4.2.1(vue@3.5.35(typescript@6.0.3))

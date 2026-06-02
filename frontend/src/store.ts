@@ -8,6 +8,7 @@ const DEFAULT_DARK_COLOR = "#1A1A1A";
 const DEFAULT_WORK_COLOR = "#FF5D5D";
 const DEFAULT_SHORT_COLOR = "#087E8B";
 const DEFAULT_LONG_COLOR = "#AA00FF";
+const TIMER_UI_TICK_MS = 250;
 
 export type Pages = "timer" | "settings";
 export const SoundSources = [
@@ -46,6 +47,11 @@ interface Settings {
   profiles: Profile[];
 }
 
+function getNotificationPermission(): NotificationPermission {
+  if (typeof Notification === "undefined") return "default";
+  return Notification.permission;
+}
+
 export class Profile {
   public id = crypto.randomUUID();
   public name: string = "Default";
@@ -68,7 +74,7 @@ export class Profile {
     const profile = new Profile(
       p.name || "Default",
       p.duration || 25 * 60 * 1000,
-      p.color || chroma.random().hex()
+      p.color || chroma.random().hex(),
     );
     profile.id = p.id || crypto.randomUUID();
     return profile;
@@ -85,7 +91,7 @@ const defaultProfiles = {
 export class State {
   public version: number = 1;
   public page: Pages = "timer";
-  public timer: number = defaultProfiles.Work.duration + 999; // in milliseconds
+  public timer: number = defaultProfiles.Work.duration; // in milliseconds
   public isRunning: boolean = false;
   public currentProfile: string = defaultProfiles.Work.id;
   public history: number[] = [];
@@ -94,13 +100,14 @@ export class State {
 }
 
 const data = reactive(loadState());
+let timerEndAt: number | null = null;
 
 function newSettings(): Settings {
   return {
     historyEnabled: true,
     historyMax: 9,
     notificationEnabled: false,
-    notificationPermission: "default",
+    notificationPermission: getNotificationPermission(),
     notificationSound: "acoustic-guitar",
     notificationVolume: 100,
     displayChangeTitle: true,
@@ -127,7 +134,7 @@ function saveState() {
     JSON.stringify({
       version: data.version,
       settings: data.settings,
-    })
+    }),
   );
 }
 
@@ -135,13 +142,23 @@ function loadState(): State {
   const saved = localStorage.getItem("state");
   const data = reactive(new State());
   if (saved) {
-    const parsed = JSON.parse(saved);
-    parsed.settings.profiles = parsed.settings.profiles.map((p: any) =>
-      Profile.from(p)
-    );
-    data.version = parsed.version || 1;
-    data.settings = { ...data.settings, ...parsed.settings };
-    data.currentProfile = data.settings.profiles[0].id;
+    try {
+      const parsed = JSON.parse(saved);
+      const parsedProfiles = Array.isArray(parsed?.settings?.profiles)
+        ? parsed.settings.profiles.map((p: Partial<Profile>) => Profile.from(p))
+        : data.settings.profiles;
+
+      data.version = parsed?.version || 1;
+      data.settings = {
+        ...data.settings,
+        ...parsed?.settings,
+        profiles: parsedProfiles,
+      };
+      data.currentProfile = data.settings.profiles[0].id;
+    } catch (e) {
+      console.warn("Invalid saved state, using defaults", e);
+      clearState();
+    }
   }
   return data;
 }
@@ -152,7 +169,11 @@ function clearState() {
 
 // SETTINGS CONTROLS ----------------------------------------------------------
 function newProfile(): Profile {
-  const profile = new Profile("New Profile", 10 * 60, chroma.random().hex());
+  const profile = new Profile(
+    "New Profile",
+    10 * 60 * 1000,
+    chroma.random().hex(),
+  );
   data.settings.profiles.push(profile);
   return profile;
 }
@@ -232,6 +253,11 @@ function clearHistory() {
 // NOTIFICATION CONTROLS ------------------------------------------------------
 
 async function requestBrowserNotification() {
+  if (typeof Notification === "undefined") {
+    data.settings.notificationPermission = "default";
+    return;
+  }
+
   const permission = await Notification.requestPermission();
   data.settings.notificationPermission = permission;
 }
@@ -239,13 +265,17 @@ async function requestBrowserNotification() {
 async function showToastNotification(
   title: string,
   message: string,
-  icon: string
+  icon: string,
 ) {
-  if (!window.Notification) return;
+  if (typeof Notification === "undefined") return;
 
-  if (!data.settings.notificationPermission) {
+  if (Notification.permission === "default") {
     await requestBrowserNotification();
   }
+
+  data.settings.notificationPermission = Notification.permission;
+  if (Notification.permission !== "granted") return;
+
   const notification = new Notification(title, {
     body: message,
     icon: icon,
@@ -269,7 +299,7 @@ async function showNotification(
   enabled?: boolean,
   message?: string,
   sound?: string,
-  volume?: number
+  volume?: number,
 ) {
   const profile = getCurrentProfile();
   enabled = enabled ?? data.settings.notificationEnabled;
@@ -296,17 +326,27 @@ function startTimer(profileId: string) {
   if (!profile) return;
 
   data.currentProfile = profileId;
-  data.timer = profile.duration + 999; // Add 999ms to account for the first tick
+  data.timer = profile.duration;
+  timerEndAt = Date.now() + data.timer;
   data.isRunning = true;
+  _updateTitle();
 }
 
 function pauseTimer() {
+  if (data.isRunning && timerEndAt !== null) {
+    data.timer = Math.max(0, timerEndAt - Date.now());
+  }
+
+  timerEndAt = null;
   data.isRunning = false;
+  _updateTitle();
 }
 
 function resumeTimer() {
   if (data.timer > 0) {
+    timerEndAt = Date.now() + data.timer;
     data.isRunning = true;
+    _updateTitle();
   }
 }
 
@@ -332,14 +372,24 @@ function offTimerEnd(cb: () => void) {
 function _tick() {
   if (!data.isRunning) return;
 
-  data.timer -= 50;
-  if (data.timer <= 0) {
+  if (timerEndAt === null) {
+    data.isRunning = false;
+    return;
+  }
+
+  const remaining = timerEndAt - Date.now();
+  if (remaining <= 0) {
+    timerEndAt = null;
     data.timer = 0;
     data.isRunning = false;
     addToHistory(getCurrentProfile().duration);
     data.callbacks.forEach((cb) => cb());
     showNotification();
+    _updateTitle();
+    return;
   }
+
+  data.timer = remaining;
   _updateTitle();
 }
 
@@ -351,7 +401,19 @@ function _updateTitle() {
   document.title = `${formatTime(data.timer, { leading: true })} - Pomodoro`;
 }
 
-setInterval(_tick, 50);
+if (typeof document !== "undefined") {
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      _tick();
+    }
+  });
+}
+
+if (typeof window !== "undefined") {
+  window.addEventListener("focus", _tick);
+}
+
+setInterval(_tick, TIMER_UI_TICK_MS);
 _updateTitle();
 setColors();
 

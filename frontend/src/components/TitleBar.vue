@@ -27,13 +27,13 @@ function winClose() {
     <span class="titlebar__spacer"></span>
     <div class="titlebar__window-controls">
       <!-- <wa-tooltip for="titlebar__settings" placement="bottom-left" showDelay="1000">Settings</wa-tooltip> -->
-      <a id="titlebar__settings" @click="viewSettings">∴</a>
+      <button id="titlebar__settings" type="button" aria-label="Open settings" @click="viewSettings">∴</button>
       <!-- <wa-tooltip for="titlebar__minimize" placement="bottom-left" showDelay="1000">Minimize</wa-tooltip> -->
-      <a v-if="isDesktop()" id="titlebar__minimize" @click="winMinimize">-</a>
+      <button v-if="isDesktop()" id="titlebar__minimize" type="button" aria-label="Minimize window" @click="winMinimize">-</button>
       <!-- <wa-tooltip for="titlebar__maximize" placement="bottom-left" showDelay="1000">Maximize</wa-tooltip> -->
-      <a v-if="isDesktop()" id="titlebar__maximize" @click="winMaximize">•</a>
+      <button v-if="isDesktop()" id="titlebar__maximize" type="button" aria-label="Toggle maximize window" @click="winMaximize">•</button>
       <!-- <wa-tooltip for="titlebar__close" placement="bottom-left" showDelay="1000">Close</wa-tooltip> -->
-      <a v-if="isDesktop()" id="titlebar__close" @click="winClose">×</a>
+      <button v-if="isDesktop()" id="titlebar__close" type="button" aria-label="Close app" @click="winClose">×</button>
     </div>
   </nav>
 </template>
@@ -56,18 +56,27 @@ function winClose() {
   &__window-controls {
     display: flex;
     gap: 0;
-    a {
+    button {
       --wails-draggable: no-drag;
       display: flex;
       align-items: center;
       justify-content: center;
       width: var(--height-titlebar);
       height: var(--height-titlebar);
+      border: 0;
+      padding: 0;
+      background-color: transparent;
+      color: inherit;
       text-decoration: none;
       font-size: var(--font-size-lg);
+      cursor: pointer;
 
       &:hover {
         background-color: var(--color-input-idle);
+      }
+
+      &:focus-visible {
+        outline: 1px solid currentColor;
       }
     }
   }
